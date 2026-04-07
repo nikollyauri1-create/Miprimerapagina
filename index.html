@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Top 5 — Aprendizaje Digital en Educación Médica</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* ================================================================
+           1. RESET Y VARIABLES GLOBALES
+           Variables de color según la paleta solicitada.
+           Se resetean márgenes, paddings y se define la tipografía base.
+           ================================================================ */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --azul: #1F3C88;
+            --teal: #00A8A8;
+            --fondo: #F2F4F8;
+            --blanco: #FFFFFF;
+            --texto: #2D3748;
+            --texto-secundario: #64748B;
+            --borde: #E2E8F0;
+            --sombra-suave: 0 2px 12px rgba(31, 60, 136, 0.06);
+            --sombra-elevada: 0 10px 40px rgba(31, 60, 136, 0.12);
+            --radio-tarjeta: 16px;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--fondo);
+            color: var(--texto);
+            line-height: 1.6;
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ================================================================
+           2. FONDO CON TEXTURA SUTIL
+           Patrón de puntos tenue generado con gradientes radiales
+           repetidos. Se usa position: fixed para que no se repita
+           al hacer scroll y pointer-events: none para no interferir
+           con clics.
+           ================================================================ */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: radial-gradient(circle, rgba(31, 60, 136, 0.03) 1px, transparent 1px);
+            background-size: 20px 20px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* ================================================================
+           3. CONTENEDOR PRINCIPAL
+           Centra el contenido y lo separa de los bordes.
+           ================================================================ */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ================================================================
+           4. HEADER — Encabezado de la infografía
+           Fondo azul oscuro con elementos decorativos:
+           - ::before → líneas diagonales sutiles en teal
+           - ::after → círculo decorativo grande
+           El contenido usa posición relativa con z-index: 1
+           para aparecer sobre los decorativos.
+           ================================================================ */
+        header {
+            background: var(--azul);
+            padding: 48px 20px 44px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                repeating-linear-gradient(
+                    -45deg,
+                    transparent,
+                    transparent 20px,
+                    rgba(0, 168, 168, 0.04) 20px,
+                    rgba(0, 168, 168, 0.04) 21px
+                );
+            pointer-events: none;
+        }
+
+        header::after {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            border: 1px solid rgba(0, 168, 168, 0.1);
+            top: -110px;
+            right: -70px;
+            pointer-events: none;
+        }
+
+        .header-inner {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Badge superior "INFOGRAFÍA INTERACTIVA" */
+        .header-badge {
+            display: inline-block;
+            background: var(--teal);
+            color: var(--blanco);
+            font-size: 10.5px;
+            font-weight: 700;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            padding: 5px 14px;
+            border-radius: 100px;
+            margin-bottom: 18px;
+        }
+
+        .header-title {
+            color: var(--blanco);
+            font-size: 28px;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 12px;
+            letter-spacing: -0.02em;
+        }
+
+        .header-desc {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 14.5px;
+            font-weight: 400;
+            max-width: 560px;
+            line-height: 1.7;
+        }
+
+        /* Línea de transición gradiente entre header y contenido */
+        .header-border {
+            height: 3px;
+            background: linear-gradient(90deg, var(--teal), var(--azul) 70%);
+        }
+
+        /* ================================================================
+           5. SECCIÓN DE LISTA — Contenedor de los 5 ítems
+           Incluye:
+           - Línea vertical de timeline (::before)
+           - Título de sección
+           ================================================================ */
+
+        .list-section {
+            padding: 40px 0 32px;
+            position: relative;
+        }
+
+        /* Línea vertical continua que conecta todos los ítems.
+           Se posiciona a la izquierda, alineada con los números.
+           Ancho: 2px, color: var(--borde), punteada con dasharray.
+           NOTA: Se oculta en el último ítem con overflow en el
+           ítem para que no se extienda más allá del último número.
+
+           PARA PERSONALIZAR:
+           - Tipo de línea: cambia border-style (dotted, dashed, solid)
+           - Color: cambia border-color
+           - Grosor: cambia border-width (2px actual) */
+        .list-section::before {
+            content: '';
+            position: absolute;
+            left: 54px;
+            top: 72px;
+            bottom: 72px;
+            width: 2px;
+            border-left: 2px dotted var(--borde);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .section-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--texto-secundario);
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            margin-bottom: 24px;
+            padding-left: 4px;
+        }
+
+        /* ================================================================
+           6. CADA ÍTEM DE LA LISTA (TARJETA)
+           Layout: flex horizontal con icono a la izquierda
+           y bloque de texto a la derecha.
+           position: relative con z-index: 1 para que las tarjetas
+           aparezcan sobre la línea vertical del timeline.
+
+           Transiciones al hover:
+           - transform: translateY(-4px) → elevación
+           - box-shadow: sombra más intensa
+           - border-color: cambia a teal translúcido
+
+           PARA PERSONALIZAR:
+           - Elevación al hover: cambia translateY (-4px actual)
+           - Sombra al hover: cambia --sombra-elevada
+           - Redondeo: cambia --radio-tarjeta
+           ================================================================ */
+        .list-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            padding: 24px;
+            background: var(--blanco);
+            border-radius: var(--radio-tarjeta);
+            margin-bottom: 14px;
+            box-shadow: var(--sombra-suave);
+            border: 1px solid var(--borde);
+            position: relative;
+            z-index: 1;
+            transition:
+                box-shadow 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                border-color 0.4s ease;
+            cursor: default;
+        }
+
+        .list-item:hover {
+            box-shadow: var(--sombra-elevada);
+            transform: translateY(-4px);
+            border-color: rgba(0, 168, 168, 0.3);
+        }
+
+        .list-item:last-child {
+            margin-bottom: 0;
+        }
+
+        /* ================================================================
+           7. EFECTO PRINCIPAL — ANILLO CON SEMICÍRCULOS ANIMADOS
+           ================================================================
+           MECANISMO COMPLETO:
+
+           El contenedor .icon-ring es un círculo de 68px con fondo
+           claro que muestra el emoji centrado con flexbox.
+
+           Se usan DOS pseudo-elementos (::before y ::after) para
+           crear los semicírculos. Ambos se posicionan con inset: -5px,
+           es decir, 5px más grande que el círculo del icono en
+           todas direcciones, creando un "anillo" alrededor.
+
+           --- SEMICÍRCULO SUPERIOR (::before) ---
+           - border: 3px solid var(--teal) → color teal
+           - clip-path: inset(0 0 50% 0) → RECORTA la mitad inferior,
+             dejando SOLO el arco superior visible
+           - transform: rotate(-35deg) → gira 35° en antihorario,
+             abriendo un GAP en el lado derecho del arco
+
+           --- SEMICÍRCULO INFERIOR (::after) ---
+           - border: 3px solid var(--azul) → color azul oscuro
+           - clip-path: inset(50% 0 0 0) → RECORTA la mitad superior,
+             dejando SOLO el arco inferior visible
+           - transform: rotate(35deg) → gira 35° en horario,
+             abriendo un GAP en el lado izquierdo del arco
+
+           --- AL HACER HOVER ---
+           Ambos pseudo-elementos rotan a rotate(0deg):
+           - Los gaps se cierran
+           - Los dos semicírculos se unen formando un CÍRCULO COMPLETO
+           - El ::after tiene transition-delay: 0.07s para un cierre
+             escalonado más orgánico (no simultáneo)
+
+           --- BADGE NUMÉRICO ---
+           Un <span> posicionado de forma absoluta en la esquina
+           superior izquierda del anillo. Al hover cambia de azul
+           a teal y escala ligeramente.
+
+           ================================================================
+           CÓMO PERSONALIZAR ESTA ANIMACIÓN:
+
+           a) Tamaño del GAP inicial:
+              Cambia los grados de rotate en el estado base.
+              - Gap más grande: -45deg / 45deg
+              - Gap más pequeño: -20deg / 20deg
+              - Sin gap (semicírculos cerrados): 0deg / 0deg
+
+           b) Grosor del anillo:
+              Cambia border: 3px → 2px (más fino) o 4px (más grueso)
+
+           c) Separación del anillo respecto al icono:
+              Cambia inset: -5px → -3px (más pegado) o -8px (más separado)
+
+           d) Colores del anillo:
+              Cambia var(--teal) en ::before y var(--azul) en ::after
+              por cualquier otro color
+
+           e) Velocidad de cierre:
+              Cambia transition-duration (0.5s actual)
+              Para más rápido: 0.3s. Para más lento: 0.8s
+
+           f) Delay escalonado:
+              Cambia transition-delay en ::after (0.07s actual)
+              Para más pronunciado: 0.15s. Para simultáneo: 0s
+
+           g) Tamaño del círculo del icono:
+              Cambia width/height/min-width de .icon-ring
+              (68px actual). Asegúrate de ajustar el font-size
+              del emoji proporcionalmente.
+           ================================================================ */
+        .icon-ring {
+            position: relative;
+            width: 68px;
+            height: 68px;
+            min-width: 68px;
+            border-radius: 50%;
+            background: var(--fondo);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 27px;
+            transition: background-color 0.35s ease;
+        }
+
+        .list-item:hover .icon-ring {
+            background-color: #EDF2F7;
+        }
+
+        /* --- SEMICÍRCULO SUPERIOR (teal #00A8A8) --- */
+        .icon-ring::before {
+            content: '';
+            position: absolute;
+            inset: -5px;
+            border-radius: 50%;
+            border: 3px solid var(--teal);
+            clip-path: inset(0 0 50% 0);
+            transform: rotate(-35deg);
+            transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            z-index: 2;
+        }
+
+        /* --- SEMICÍRCULO INFERIOR (azul #1F3C88) --- */
+        .icon-ring::after {
+            content: '';
+            position: absolute;
+            inset: -5px;
+            border-radius: 50%;
+            border: 3px solid var(--azul);
+            clip-path: inset(50% 0 0 0);
+            transform: rotate(35deg);
+            transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.07s;
+            z-index: 2;
+        }
+
+        /* --- HOVER: cierre de semicírculos → círculo completo --- */
+        .list-item:hover .icon-ring::before {
+            transform: rotate(0deg);
+        }
+
+        .list-item:hover .icon-ring::after {
+            transform: rotate(0deg);
+        }
+
+        /* --- BADGE NUMÉRICO --- */
+        .icon-num {
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--azul);
+            color: var(--blanco);
+            font-size: 11.5px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 3;
+            box-shadow: 0 2px 8px rgba(31, 60, 136, 0.3);
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .list-item:hover .icon-num {
+            background-color: var(--teal);
+            transform: scale(1.12);
+        }
+
+        /* ================================================================
+           8. ÁREA DE TEXTO — Título y descripción de cada ítem
+           ================================================================ */
+        .item-text {
+            flex: 1;
+            padding-top: 5px;
+            min-width: 0;
+        }
+
+        .item-title {
+            font-size: 16.5px;
+            font-weight: 700;
+            color: var(--azul);
+            line-height: 1.3;
+            position: relative;
+            display: inline-block;
+            transition: color 0.35s ease;
+        }
+
+        /* El título cambia de azul a teal al hover del ítem */
+        .list-item:hover .item-title {
+            color: var(--teal);
+        }
+
+        .item-desc {
+            font-size: 13.5px;
+            color: var(--texto-secundario);
+            line-height: 1.7;
+            margin-top: 8px;
+            transition: color 0.3s ease;
+        }
+
+        /* La descripción se oscurece levemente al hover para
+           mejorar la legibilidad cuando el ítem está elevado */
+        .list-item:hover .item-desc {
+            color: #475569;
+        }
+
+        /* ================================================================
+           9. EFECTO SECUNDARIO — LÍNEA ONDULADA ANIMADA BAJO EL TÍTULO
+           ================================================================
+           MECANISMO COMPLETO:
+
+           1) Se usa un SVG inline codificado como data URI que dibuja
+              una curva sinusoidal con el comando Q (curva cuadrática
+              de Bézier):
+              - M0 4 → empieza en (0, 4), punto medio vertical del viewBox
+              - Q6 0 12 4 → curva hacia arriba, punto de control en y=0
+              - Q18 8 24 4 → curva hacia abajo, punto de control en y=8
+              Esto forma UN ciclo completo de onda en 24px de ancho.
+              Color del trazo: %2300A8A8 (URL-encoded de #00A8A8).
+              Grosor del trazo: 1.8px.
+
+           2) background-repeat: repeat-x → repite el patrón
+              horizontalmente para cubrir cualquier ancho.
+
+           3) background-size: 24px 8px → define que cada ciclo
+              de onda ocupa exactamente 24px de ancho.
+
+           4) Estado inicial: width: 0 → la onda es invisible.
+
+           5) Al hacer hover sobre .list-item:
+              - width transiciona a 100% → la onda se "dibuja"
+                de izquierda a derecha como una barra de progreso.
+              - Se activa la animación @keyframes wave-scroll.
+
+           6) @keyframes wave-scroll:
+              Desplaza background-position desde 0 hasta 24px
+              (un ciclo completo de la onda) en loop infinito.
+              Esto crea la ilusión de que la onda "fluye"
+              continuamente de izquierda a derecha.
+
+           ================================================================
+           CÓMO PERSONALIZAR ESTA ANIMACIÓN:
+
+           a) Amplitud de la onda (qué tan "alta" es):
+              En el SVG data URI, cambia los valores Y de los
+              puntos de control Q:
+              - Más alta: Q6 -2 12 4 Q18 10 24 4 (rango: -2 a 10)
+              - Más baja/sutil: Q6 2 12 4 Q18 6 24 4 (rango: 2 a 6)
+
+           b) Longitud de cada ciclo de onda:
+              Cambia background-size (24px actual) Y el valor
+              final en @keyframes wave-scroll (24px actual).
+              Ambos DEBEN coincidir. Ejemplo: 32px / 32px.
+
+           c) Altura visible de la onda:
+              Cambia height (7px actual). Esto controla cuánto
+              espacio vertical ocupa la línea. Si la aumentas,
+              podrías necesitar ajustar también el viewBox del SVG.
+
+           d) Color de la onda:
+              Cambia stroke='%2300A8A8' en el data URI por el
+              color deseado codificado en URL (ej. %23FF0000 para rojo).
+
+           e) Grosor del trazo:
+              Cambia stroke-width='1.8' en el data URI.
+
+           f) Velocidad del flujo:
+              Cambia animation-duration (1.3s actual).
+              Más rápido: 0.8s. Más lento: 2s.
+
+           g) Velocidad de aparición (cuán rápido se dibuja):
+              Cambia transition-duration en width (0.4s actual).
+
+           h) Sin flujo (solo aparece estática):
+              Elimina la línea "animation: wave-scroll ..."
+              del bloque .list-item:hover .item-title::after
+
+           i) Dirección del flujo (derecha a izquierda):
+              Cambia @keyframes wave-scroll:
+              from { background-position: 0 0; }
+              to { background-position: -24px 0; }
+              (nota el signo negativo)
+           ================================================================ */
+        .item-title::after {
+            content: '';
+            display: block;
+            width: 0;
+            height: 7px;
+            margin-top: 6px;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 8'%3E%3Cpath d='M0 4 Q6 0 12 4 Q18 8 24 4' fill='none' stroke='%2300A8A8' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E") repeat-x;
+            background-size: 24px 7px;
+            background-position: 0 0;
+            transition: width 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .list-item:hover .item-title::after {
+            width: 100%;
+            animation: wave-scroll 1.3s linear infinite;
+        }
+
+        /* Desplaza el fondo un ciclo completo (24px) para
+           simular flujo continuo de la onda.
+           IMPORTANTE: Este valor DEBE coincidir con el
+           primer valor de background-size en .item-title::after */
+        @keyframes wave-scroll {
+            from { background-position: 0 0; }
+            to { background-position: 24px 0; }
+        }
+
+        /* ================================================================
+           10. FOOTER — Fuente y crédito del diseñador
+           Fondo azul con línea de gradiente decorativa superior.
+           ================================================================ */
+        footer {
+            background: var(--azul);
+            padding: 32px 20px;
+            position: relative;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--azul), var(--teal));
+        }
+
+        .footer-inner {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .footer-source {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.5);
+            line-height: 1.75;
+            margin-bottom: 12px;
+            word-break: break-word;
+        }
+
+        .footer-source a {
+            color: var(--teal);
+            text-decoration: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .footer-source a:hover {
+            opacity: 0.75;
+            text-decoration: underline;
+        }
+
+        .footer-credit {
+            font-size: 12.5px;
+            color: rgba(255, 255, 255, 0.85);
+            font-weight: 600;
+        }
+
+        /* ================================================================
+           11. ACCESIBILIDAD — Respeto a prefers-reduced-motion
+           Desactiva TODAS las animaciones y transiciones cuando
+           el usuario tiene activada la preferencia de movimiento
+           reducido en su sistema operativo.
+           ================================================================ */
+        @media (prefers-reduced-motion: reduce) {
+            .icon-ring::before,
+            .icon-ring::after {
+                transition: none;
+            }
+            .item-title::after {
+                transition: none;
+                animation: none !important;
+            }
+            .list-item,
+            .icon-num,
+            .item-title,
+            .item-desc,
+            .icon-ring {
+                transition: none;
+            }
+        }
+
+        /* ================================================================
+           12. RESPONSIVE — TABLET (hasta 640px)
+           Ajustes de tamaño para pantallas medianas:
+           - Header más compacto
+           - Iconos y tipografía reducidos
+           - Línea de timeline reposicionada
+           - Espaciados reducidos
+           ================================================================ */
+        @media (max-width: 640px) {
+            header {
+                padding: 36px 16px 32px;
+            }
+
+            .header-title {
+                font-size: 22px;
+            }
+
+            .header-desc {
+                font-size: 13px;
+            }
+
+            .header-badge {
+                font-size: 9.5px;
+                padding: 4px 12px;
+            }
+
+            header::after {
+                width: 200px;
+                height: 200px;
+                top: -70px;
+                right: -50px;
+            }
+
+            .list-section {
+                padding: 30px 0 24px;
+            }
+
+            /* Reposicionar la línea vertical del timeline */
+            .list-section::before {
+                left: 44px;
+                top: 62px;
+                bottom: 62px;
+            }
+
+            .list-item {
+                gap: 16px;
+                padding: 20px;
+                border-radius: 14px;
+                margin-bottom: 12px;
+            }
+
+            .icon-ring {
+                width: 56px;
+                height: 56px;
+                min-width: 56px;
+                font-size: 23px;
+            }
+
+            .icon-ring::before,
+            .icon-ring::after {
+                inset: -4px;
+                border-width: 2.5px;
+            }
+
+            .icon-num {
+                width: 22px;
+                height: 22px;
+                font-size: 10.5px;
+                top: -4px;
+                left: -4px;
+            }
+
+            .item-title {
+                font-size: 14.5px;
+            }
+
+            .item-desc {
+                font-size: 12.5px;
+                margin-top: 6px;
+            }
+
+            .item-title::after {
+                height: 6px;
+                margin-top: 5px;
+                background-size: 20px 6px;
+            }
+
+            /* Ajustar keyframes para el nuevo tamaño de onda */
+            @keyframes wave-scroll {
+                from { background-position: 0 0; }
+                to { background-position: 20px 0; }
+            }
+
+            footer {
+                padding: 26px 16px;
+            }
+
+            .footer-source {
+                font-size: 10px;
+            }
+
+            .footer-credit {
+                font-size: 11.5px;
+            }
+        }
+
+        /* ================================================================
+           13. RESPONSIVE — MÓVIL PEQUEÑO (hasta 400px)
+           Ajustes adicionales para pantallas muy estrechas:
+           - Todo más compacto
+           - Iconos más pequeños
+           - Menos padding general
+           ================================================================ */
+        @media (max-width: 400px) {
+            .container {
+                padding: 0 12px;
+            }
+
+            header {
+                padding: 28px 12px 24px;
+            }
+
+            .header-title {
+                font-size: 19px;
+            }
+
+            .header-desc {
+                font-size: 12px;
+            }
+
+            .list-section {
+                padding: 22px 0 18px;
+            }
+
+            .section-label {
+                font-size: 10px;
+                margin-bottom: 18px;
+            }
+
+            .list-section::before {
+                left: 38px;
+                top: 54px;
+                bottom: 54px;
+            }
+
+            .list-item {
+                gap: 12px;
+                padding: 16px;
+                border-radius: 12px;
+                margin-bottom: 10px;
+            }
+
+            .icon-ring {
+                width: 48px;
+                height: 48px;
+                min-width: 48px;
+                font-size: 20px;
+            }
+
+            .icon-ring::before,
+            .icon-ring::after {
+                inset: -4px;
+                border-width: 2px;
+            }
+
+            .icon-num {
+                width: 20px;
+                height: 20px;
+                font-size: 10px;
+                top: -3px;
+                left: -3px;
+            }
+
+            .item-title {
+                font-size: 13px;
+            }
+
+            .item-title::after {
+                height: 5px;
+                margin-top: 4px;
+                background-size: 18px 5px;
+            }
+
+            @keyframes wave-scroll {
+                from { background-position: 0 0; }
+                to { background-position: 18px 0; }
+            }
+
+            .item-desc {
+                font-size: 11.5px;
+                line-height: 1.6;
+                margin-top: 5px;
+            }
+
+            footer {
+                padding: 22px 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ================================================================
+         HEADER — Título y descripción de la infografía
+         ================================================================ -->
+    <header>
+        <div class="header-inner">
+            <span class="header-badge">Infografía Interactiva</span>
+            <h1 class="header-title">Top 5 Hallazgos sobre Aprendizaje Digital en Educación Médica</h1>
+            <p class="header-desc">Percepciones estudiantiles sobre plataformas digitales como Osmosis y su impacto en la motivación y la inclusión</p>
+        </div>
+    </header>
+    <div class="header-border" aria-hidden="true"></div>
+
+    <!-- ================================================================
+         LISTA PRINCIPAL — 5 ítems con iconos animados y líneas onduladas
+         ================================================================ -->
+    <main class="container">
+        <section class="list-section" aria-label="Lista de hallazgos clave">
+
+            <h2 class="section-label">Hallazgos principales</h2>
+
+            <!-- Ítem 1 -->
+            <article class="list-item">
+                <div class="icon-ring" aria-hidden="true">
+                    <span class="icon-num">1</span>
+                    📊
+                </div>
+                <div class="item-text">
+                    <h3 class="item-title">Sobrecarga de recursos digitales</h3>
+                    <p class="item-desc">Existe una gran cantidad de herramientas digitales que genera confusión y dificulta la elección adecuada por parte de los estudiantes.</p>
+                </div>
+            </article>
+
+            <!-- Ítem 2 -->
+            <article class="list-item">
+                <div class="icon-ring" aria-hidden="true">
+                    <span class="icon-num">2</span>
+                    🎯
+                </div>
+                <div class="item-text">
+                    <h3 class="item-title">Aprendizaje autónomo (ventajas y retos)</h3>
+                    <p class="item-desc">Las plataformas permiten aprender a ritmo propio, pero también pueden causar desorganización y sobrecarga.</p>
+                </div>
+            </article>
+
+            <!-- Ítem 3 -->
+            <article class="list-item">
+                <div class="icon-ring" aria-hidden="true">
+                    <span class="icon-num">3</span>
+                    ⚡
+                </div>
+                <div class="item-text">
+                    <h3 class="item-title">Eficiencia y mejor comprensión</h3>
+                    <p class="item-desc">Herramientas como Osmosis facilitan el aprendizaje rápido y mejoran la comprensión profunda de los temas.</p>
+                </div>
+            </article>
+
+            <!-- Ítem 4 -->
+            <article class="list-item">
+                <div class="icon-ring" aria-hidden="true">
+                    <span class="icon-num">4</span>
+                    👥
+                </div>
+                <div class="item-text">
+                    <h3 class="item-title">Influencia social en el aprendizaje</h3>
+                    <p class="item-desc">Las decisiones sobre qué plataformas usar están fuertemente influenciadas por recomendaciones de otros estudiantes.</p>
+                </div>
+            </article>
+
+            <!-- Ítem 5 -->
+            <article class="list-item">
+                <div class="icon-ring" aria-hidden="true">
+                    <span class="icon-num">5</span>
+                    ⚠️
+                </div>
+                <div class="item-text">
+                    <h3 class="item-title">Problemas de alineación curricular</h3>
+                    <p class="item-desc">Algunas plataformas no están completamente alineadas con el plan de estudios local, lo que limita su utilidad.</p>
+                </div>
+            </article>
+
+        </section>
+    </main>
+
+    <!-- ================================================================
+         FOOTER — Fuente académica y crédito del diseñador
+         ================================================================ -->
+    <footer>
+        <div class="footer-inner">
+            <p class="footer-source">
+                Fuente: Exploring student perceptions of the Osmosis digital learning platform in undergraduate medical education and its influences on motivation and inclusivity —
+                <a href="https://doi.org/10.1186/s12909-025-07591-z" target="_blank" rel="noopener noreferrer">DOI: 10.1186/s12909-025-07591-z</a>
+            </p>
+            <p class="footer-credit">Diseñado por: Nikoll Yauri Mendoza</p>
+        </div>
+    </footer>
+
+</body>
+</html>
